@@ -850,7 +850,7 @@ std::string fs_get_cache_directory() {
     if (getenv("LLAMA_CACHE")) {
         cache_directory = std::getenv("LLAMA_CACHE");
     } else {
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
         if (std::getenv("XDG_CACHE_HOME")) {
             cache_directory = std::getenv("XDG_CACHE_HOME");
         } else {
@@ -860,7 +860,9 @@ std::string fs_get_cache_directory() {
         cache_directory = std::getenv("HOME") + std::string("/Library/Caches/");
 #elif defined(_WIN32)
         cache_directory = std::getenv("LOCALAPPDATA");
-#endif // __linux__
+#else
+#  error Unknown architecture
+#endif
         cache_directory = ensure_trailing_slash(cache_directory);
         cache_directory += "llama.cpp";
     }
