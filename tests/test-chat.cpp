@@ -1050,12 +1050,7 @@ static void test_template_output_parsers() {
         std::vector<std::string>   end_tokens{ "<|eom_id|>", "<|eot_id|>" };
 
         assert_equals(COMMON_CHAT_FORMAT_LLAMA_3_X, common_chat_templates_apply(tmpls.get(), inputs_tools).format);
-<<<<<<< HEAD
-        assert_equals(COMMON_CHAT_FORMAT_CONTENT_ONLY,
-                        common_chat_templates_apply(tmpls.get(), inputs_no_tools).format);
-=======
         assert_equals(COMMON_CHAT_FORMAT_CONTENT_ONLY, common_chat_templates_apply(tmpls.get(), inputs_no_tools).format);
->>>>>>> b6930ebc (`tool-call`: fix non-tool-calling grammar crashes w/ Qwen / Hermes 2 templates (#12900))
 
         test_templates(tmpls.get(), end_tokens, message_assist, tools, "Hello, world!\nWhat's up?", /* expect_grammar_triggered= */ false);
         test_templates(tmpls.get(), end_tokens, message_assist_call, tools,
@@ -1158,17 +1153,11 @@ static void test_template_output_parsers() {
         auto tmpls = read_templates("models/templates/deepseek-ai-DeepSeek-R1-Distill-Llama-8B.jinja");
         std::vector<std::string>   end_tokens{ "<｜end▁of▁sentence｜>" };
 
-<<<<<<< HEAD
         for (const auto & inputs : { inputs_no_tools, inputs_tools }) {
             auto params = common_chat_templates_apply(tmpls.get(), inputs);
             assert_equals(COMMON_CHAT_FORMAT_DEEPSEEK_R1, params.format);
             assert_equals(true, params.thinking_forced_open);
         }
-=======
-        assert_equals(COMMON_CHAT_FORMAT_DEEPSEEK_R1,                   common_chat_templates_apply(tmpls.get(), inputs_no_tools).format);
-        assert_equals(COMMON_CHAT_FORMAT_DEEPSEEK_R1,                   common_chat_templates_apply(tmpls.get(), inputs_tools).format);
-        assert_equals(COMMON_CHAT_FORMAT_DEEPSEEK_R1_EXTRACT_REASONING, common_chat_templates_apply(tmpls.get(), inputs_tools_think).format);
->>>>>>> b6930ebc (`tool-call`: fix non-tool-calling grammar crashes w/ Qwen / Hermes 2 templates (#12900))
 
         test_templates(tmpls.get(), end_tokens, message_assist, tools, "Hello, world!\nWhat's up?", /* expect_grammar_triggered= */ false);
         test_templates(tmpls.get(), end_tokens, message_assist_thoughts, tools, "Hello, world!\nWhat's up?", /* expect_grammar_triggered= */ false);
