@@ -390,7 +390,7 @@ template <> json common_chat_msg_diff_to_json_oaicompat(const common_chat_msg_di
         }
         if (!diff.tool_call_delta.id.empty()) {
             function["id"] = diff.tool_call_delta.id;
-            delta["tool_call_id"] = diff.tool_call_delta.id;
+            delta["id"] = diff.tool_call_delta.id;
         }
         if (!diff.tool_call_delta.arguments.empty()) {
             function["arguments"] = diff.tool_call_delta.arguments;
