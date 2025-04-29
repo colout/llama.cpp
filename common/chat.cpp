@@ -101,7 +101,7 @@ std::vector<common_chat_msg_diff> common_chat_msg_diff::compute_diffs(const comm
         if (!args_diff.empty() || pref.id != newf.id) {
             auto & diff = diffs.emplace_back();
             diff.tool_call_index = idx;
-            diff.tool_call_delta.name = newf.name;
+            diff.tool_call_delta.name = string_diff(pref.name, newf.name);
             if (pref.id != newf.id) {
                 diff.tool_call_delta.id = newf.id;
             }
@@ -399,6 +399,11 @@ template <> json common_chat_msg_diff_to_json_oaicompat(const common_chat_msg_di
                 {"function", function}
             }
         });
+
+        if (!diff.tool_call_delta.id.empty()) {
+            delta["tool_calls"][0]["id"] = diff.tool_call_delta.id;
+        }
+
     }
     return delta;
 }
