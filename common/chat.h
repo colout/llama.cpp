@@ -16,7 +16,7 @@ struct common_chat_tool_call {
     std::string id;
 
     bool operator==(const common_chat_tool_call & other) const {
-        return name == other.name && arguments == other.arguments && id == other.id;
+        return name == other.name;
     }
 };
 
