@@ -394,6 +394,7 @@ template <> json common_chat_msg_diff_to_json_oaicompat(const common_chat_msg_di
         delta["tool_calls"] = json::array({
             json {
                 {"index", diff.tool_call_index},
+                {"type", "function"},
                 {"function", function}
             }
         });
