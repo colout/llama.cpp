@@ -387,6 +387,7 @@ template <> json common_chat_msg_diff_to_json_oaicompat(const common_chat_msg_di
         json function = json::object();
         if (!diff.tool_call_delta.name.empty()) {
             function["name"] = diff.tool_call_delta.name;
+            function["arguments"] = "";
         }
         if (!diff.tool_call_delta.arguments.empty()) {
             function["arguments"] = diff.tool_call_delta.arguments;
