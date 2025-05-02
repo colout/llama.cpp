@@ -61,7 +61,7 @@ json common_chat_msg::to_json_oaicompat() const
                 {"type", "function"},
                 {"function", {
                     {"name", tc.name},
-                    {"arguments", tc.arguments},
+                    {"arguments", tc.arguments.empty() ? "" : tc.arguments},
                 }},
                 {"id", tc.id},
                 // // Some templates generate and require an id (sometimes in a very specific format, e.g. Mistral Nemo).
