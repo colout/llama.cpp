@@ -83,7 +83,14 @@ std::vector<common_chat_msg_diff> common_chat_msg_diff::compute_diffs(const comm
     // }
     if (previous_msg.content != new_msg.content) {
         auto & diff = diffs.emplace_back();
-        diff.content_delta = string_diff(previous_msg.content, new_msg.content);
+        try {
+            diff.content_delta = string_diff(previous_msg.content, new_msg.content);
+        } catch (const std::runtime_error &) {
+            // Non-monotonic change detected - don't crash, but flag in logs
+            LOG_WRN("Non-monotonic content change detected in streaming response");
+            // Keep the most recent content but don't deliver an invalid delta
+            diff.content_delta = "";
+        }
     }
 
     if (new_msg.tool_calls.size() < previous_msg.tool_calls.size()) {
@@ -380,7 +387,7 @@ json common_chat_tools_to_json_oaicompat(const std::vector<common_chat_tool> & t
 template <> json common_chat_msg_diff_to_json_oaicompat(const common_chat_msg_diff & diff) {
     json delta = json::object();
     // if (!diff.reasoning_content_delta.empty()) {
-    //     delta["reasoning_content"] = msg.reasoning_content;
+    //     delta["reasoning_content"] = diff.reasoning_content_delta;
     // }
     if (!diff.content_delta.empty()) {
         delta["content"] = diff.content_delta;
